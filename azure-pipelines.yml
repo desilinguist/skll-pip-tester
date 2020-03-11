@@ -1,0 +1,65 @@
+# Python package
+# Create and test a Python package on multiple Python versions.
+# Add steps that analyze code, save the dist with the build record, publish to a PyPI-compatible index, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/python
+
+variables:
+  MPLBACKEND: Agg
+  PYTHON_VERSION: 3.8
+  SKLLVERSION: 2.0
+  TESTDIR: $(Build.SourcesDirectory)\skllcode\tests
+
+trigger: none
+pr:
+- master
+
+jobs:
+
+- job: 'SKLLTests'
+  pool:
+    vmImage: 'windows-latest'
+  strategy:
+    parallel: 5
+
+  steps:
+  - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
+    displayName: Add conda to PATH
+
+  - script: |
+      mkdir skllcode
+      cd skllcode
+      git init
+      git remote add -f origin https://github.com/EducationalTestingService/skll.git
+      git config core.sparsecheckout true
+      echo tests/* > .git/info/sparse-checkout
+      echo examples/* > .git/info/sparse-checkout
+      git pull --depth=1 origin master
+    displayName: "Clone SKLL tests"
+
+  - script: |
+      conda update --quiet --yes conda
+      conda info -a
+    displayName: "Update conda"
+
+  - script: |
+      conda create --name skllenv --yes --quiet -c conda-forge -c ets python=%PYTHON_VERSION%
+      conda init cmd.exe
+      CALL activate skllenv
+      pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple skll==%SKLLVERSION%
+    displayName: 'Install TestPyPI package for SKLL'
+
+  - powershell: ./DistributeTests.ps1 
+    displayName: 'PowerShell Script to distribute tests'
+
+  - script: |
+      echo $(pytestfiles)
+      CALL activate skllenv
+      nosetests --with-xunit -w %TESTDIR% $(pytestfiles)
+    displayName: 'Run tests'
+
+  - task: PublishTestResults@2
+    displayName: 'Publish Test Results'
+    inputs:
+      testResultsFiles: 'nosetests.xml'
+      testRunTitle: 'SKLL tests'
+    condition: succeededOrFailed()
