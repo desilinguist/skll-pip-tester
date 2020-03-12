@@ -9,6 +9,7 @@ env:
   global:
   - SKLLVERSION="2.1"
   - TESTDIR="${HOME}/skllcode"
+  - BINDIR="${HOME}/miniconda3/envs/skllenv/bin"
   matrix:
   - TESTFILES="tests/test_featureset.py tests/test_utilities.py"
   - TESTFILES="tests/test_output.py"
