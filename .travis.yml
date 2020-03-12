@@ -7,8 +7,8 @@ notifications:
     secure: 4RATxrsRKGn0ToUxGb4WBYHCAKzJAdXPJURgEscdcpZxNUxKjtUJwMvtSO5aEC8xROICyHUyj3YLLB5gzkNhrRmNidbvYjeSU653y+etqMRMGkAttVL152JHZWPd93VM8cMVUJ85Xl4d42NwHv5RB6tOAEZVNP3XS6tE6+JN88Kc9PiHF6Sjdlwhb/v4ABtaPp6mbOPIGmowXz0jc/8mo2wLIf9rn7El57n+g5IR7vTM63jJ75StRz7K4cxb842P1WNrS5Kuhzxvxpi63XdbwOnV/UVP+tGONutfWWbX+MtNyWdupRKVBP43zpKLoLeCNs9BYnRqBNR88LILEqDth7cJgM+1jDOb0PyDI0D8wuOWDTuqan7SL1rnpqOveE97F+5/tAB9FX5dskLT+RM31prKNJ0VcY7o//Aks5Nw47Me2nygTcaeHXpkBIlq0WyeVqEu4Fmqd6oB4xHl25PNnaeJhtqeuSKHH6c50LVd+xBN7AwknFyQkq2lm771t3vcghOFQOyc8/CKcdZ6DjaLglew7u4vQEyEW45/zPx5QIs5aSDbPdwEZgwCgd2GtivEzSECXTPzNaJvVeoodPcIjCqA/PkJCJ5rCSfY+u0Y9t3i/Wdzge8px7ZLGo/9T7n0/cycarsPGoUd5KmEyQs9r1GyL9ic/c7p/EZ2kEnUFqo=
 env:
   global:
-  - SKLLVERSION="2.0"
-  - TESTDIR="${HOME}/skllcode/tests"
+  - SKLLVERSION="2.1"
+  - TESTDIR="${HOME}/skllcode"
   matrix:
   - TESTFILES="tests/test_featureset.py tests/test_utilities.py"
   - TESTFILES="tests/test_output.py"
@@ -33,10 +33,10 @@ install:
   - git remote add -f origin https://github.com/EducationalTestingService/skll.git
   - git config core.sparsecheckout true
   - echo "tests/*" > .git/info/sparse-checkout
-  - echo "examples/*" > .git/info/sparse-checkout
+  - echo "examples/*" >> .git/info/sparse-checkout
   - git pull --depth=1 origin master
   - conda create --name skllenv python=3.6 --yes
-  - ${HOME}/miniconda3/envs/skllenv/bin/pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple skll==${SKLLVERSION}
+  - ${HOME}/miniconda3/envs/skllenv/bin/pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple skll==${SKLLVERSION} nose
 
 # Run tests using the installed SKLL package
 script:
