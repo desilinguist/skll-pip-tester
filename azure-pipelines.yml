@@ -5,8 +5,8 @@
 
 variables:
   MPLBACKEND: Agg
-  PYTHON_VERSION: 3.8
-  SKLLVERSION: 2.1
+  PYTHON_VERSION: 3.9
+  SKLLVERSION: 2.5
   TESTDIR: $(Build.SourcesDirectory)\skllcode
 
 trigger: none
@@ -19,7 +19,7 @@ jobs:
   pool:
     vmImage: 'windows-latest'
   strategy:
-    parallel: 5
+    parallel: 6
 
   steps:
   - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
@@ -33,7 +33,7 @@ jobs:
       git config core.sparsecheckout true
       echo tests/* > .git/info/sparse-checkout
       echo examples/* >> .git/info/sparse-checkout
-      git pull --depth=1 origin master
+      git pull --depth=1 origin main
     displayName: "Clone SKLL tests"
 
   - script: |

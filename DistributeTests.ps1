@@ -30,26 +30,39 @@ $testsToRun= @()
 
 if ($agentNumber -eq 1) {
     $testsToRun = $testsToRun + "tests/test_featureset.py"
-    $testsToRun = $testsToRun + "tests/test_utilities.py"
+    $testsToRun = $testsToRun + "tests/test_commandline_utils.py"
+    $testsToRun = $testsToRun + "tests/test_custom_metrics.py"
 }
 elseif ($agentNumber -eq 2) {
     $testsToRun = $testsToRun + "tests/test_output.py"
+    $testsToRun = $testsToRun + "tests/test_voting_learners_api_4.py"
+    $testsToRun = $testsToRun + "tests/test_voting_learners_api_5.py"
 }
 elseif ($agentNumber -eq 3) {
     $testsToRun = $testsToRun + "tests/test_regression.py"
+    $testsToRun = $testsToRun + "tests/test_voting_learners_api_2.py"
 }
 elseif ($agentNumber -eq 4) {
     $testsToRun = $testsToRun + "tests/test_input.py"
     $testsToRun = $testsToRun + "tests/test_preprocessing.py"
     $testsToRun = $testsToRun + "tests/test_metrics.py"
     $testsToRun = $testsToRun + "tests/test_custom_learner.py"
-    $testsToRun = $testsToRun + "tests/test_logutils.py"
+    $testsToRun = $testsToRun + "tests/test_logging_utils.py"
     $testsToRun = $testsToRun + "tests/test_examples.py"
+    $testsToRun = $testsToRun + "tests/test_voting_learners_api_1.py"
+    $testsToRun = $testsToRun + "tests/test_voting_learners_expts_1.py"
 }
 elseif ($agentNumber -eq 5) {
     $testsToRun = $testsToRun + "tests/test_classification.py"
     $testsToRun = $testsToRun + "tests/test_cv.py"
     $testsToRun = $testsToRun + "tests/test_ablation.py"
+    $testsToRun = $testsToRun + "tests/test_voting_learners_expts_4.py"
+}
+elseif ($agentNumber -eq 6) {
+    $testsToRun = $testsToRun + "tests/test_voting_learners_api_3.py"
+    $testsToRun = $testsToRun + "tests/test_voting_learners_expts_2.py"
+    $testsToRun = $testsToRun + "tests/test_voting_learners_expts_3.py"
+    $testsToRun = $testsToRun + "tests/test_voting_learners_expts_5.py"
 }
 
 
