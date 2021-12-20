@@ -1,12 +1,12 @@
-<#  
-.SYNOPSIS  
-    Distribute the tests in VSTS pipeline across multiple agents 
-.DESCRIPTION  
+<#
+.SYNOPSIS
+    Distribute the tests in VSTS pipeline across multiple agents
+.DESCRIPTION
     This script divides test files across multiple agents for running on Azure DevOps.
-    It is adapted from the script in this repository: 
+    It is adapted from the script in this repository:
     https://github.com/PBoraMSFT/ParallelTestingSample-Python/blob/master/DistributeTests.ps1
 
-    The distribution is basically identical to the way we do it in .travis.yaml
+    The distribution is basically identical to the way we do it in .gitlab-ci.yml
 #>
 
 $tests = Get-ChildItem skllcode\tests\ -Filter "test*.py" # search for test files with specific pattern.
@@ -32,11 +32,11 @@ if ($agentNumber -eq 1) {
     $testsToRun = $testsToRun + "tests/test_featureset.py"
     $testsToRun = $testsToRun + "tests/test_commandline_utils.py"
     $testsToRun = $testsToRun + "tests/test_custom_metrics.py"
+    $testsToRun = $testsToRun + "tests/test_voting_learners_api_5.py"
 }
 elseif ($agentNumber -eq 2) {
     $testsToRun = $testsToRun + "tests/test_output.py"
     $testsToRun = $testsToRun + "tests/test_voting_learners_api_4.py"
-    $testsToRun = $testsToRun + "tests/test_voting_learners_api_5.py"
 }
 elseif ($agentNumber -eq 3) {
     $testsToRun = $testsToRun + "tests/test_regression.py"
@@ -69,5 +69,5 @@ elseif ($agentNumber -eq 6) {
 # join all test files seperated by space. pytest runs multiple test files in following format pytest test1.py test2.py test3.py
 $testFiles = $testsToRun -Join " "
 Write-Host "Test files $testFiles"
-# write these files into variable so that we can run them using pytest in subsequent task. 
-Write-Host "##vso[task.setvariable variable=pytestfiles;]$testFiles" 
+# write these files into variable so that we can run them using pytest in subsequent task.
+Write-Host "##vso[task.setvariable variable=pytestfiles;]$testFiles"
