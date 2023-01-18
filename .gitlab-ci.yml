@@ -5,11 +5,11 @@ stages:
 
 variables:
   PYVERSION: "3.8"
-  SKLLVERSION: "3.0"
+  SKLLVERSION: "3.1"
   MPLBACKEND: "Agg"
   BINDIR: "/root/skllenv/bin"
   TESTDIR: "/root/skllcode"
-  
+
 # set up the basic job to run only for pull requests
 .runtests:
   only:

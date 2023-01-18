@@ -6,7 +6,7 @@
 variables:
   MPLBACKEND: Agg
   PYTHON_VERSION: 3.9
-  SKLLVERSION: 3.0
+  SKLLVERSION: 3.1
   TESTDIR: $(Build.SourcesDirectory)\skllcode
 
 trigger: none
@@ -19,7 +19,7 @@ jobs:
   pool:
     vmImage: 'windows-latest'
   strategy:
-    parallel: 6
+    parallel: "6"
 
   steps:
   - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
@@ -48,7 +48,7 @@ jobs:
       pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple skll==%SKLLVERSION% nose
     displayName: 'Install TestPyPI package for SKLL'
 
-  - powershell: ./DistributeTests.ps1 
+  - powershell: ./DistributeTests.ps1
     displayName: 'PowerShell Script to distribute tests'
 
   - script: |
