@@ -6,7 +6,7 @@
 variables:
   MPLBACKEND: Agg
   PYTHON_VERSION: 3.9
-  SKLLVERSION: 3.1
+  SKLLVERSION: 3.2
   TESTDIR: $(Build.SourcesDirectory)\skllcode
 
 trigger: none
