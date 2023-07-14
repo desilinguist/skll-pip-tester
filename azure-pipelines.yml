@@ -5,8 +5,8 @@
 
 variables:
   MPLBACKEND: Agg
-  PYTHON_VERSION: 3.9
-  SKLLVERSION: 3.2
+  PYTHON_VERSION: 3.11
+  SKLLVERSION: 4.0
   TESTDIR: $(Build.SourcesDirectory)\skllcode
 
 trigger: none
@@ -19,7 +19,7 @@ jobs:
   pool:
     vmImage: 'windows-latest'
   strategy:
-    parallel: "6"
+    parallel: 6
 
   steps:
   - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
@@ -45,7 +45,7 @@ jobs:
       conda create --name skllenv --yes --quiet -c conda-forge -c ets python=%PYTHON_VERSION%
       conda init cmd.exe
       CALL activate skllenv
-      pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple skll==%SKLLVERSION% nose
+      pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple skll==%SKLLVERSION% nose2
     displayName: 'Install TestPyPI package for SKLL'
 
   - powershell: ./DistributeTests.ps1
@@ -54,12 +54,12 @@ jobs:
   - script: |
       echo $(pytestfiles)
       CALL activate skllenv
-      nosetests --with-xunit -w %TESTDIR% $(pytestfiles)
+      nose2 -s %TESTDIR%\tests --plugin nose2.plugins.junitxml --junit-xml $(pytestfiles)
     displayName: 'Run tests'
 
   - task: PublishTestResults@2
     displayName: 'Publish Test Results'
     inputs:
-      testResultsFiles: 'nosetests.xml'
+      testResultsFiles: 'nose2-junit.xml'
       testRunTitle: 'SKLL tests'
     condition: succeededOrFailed()
