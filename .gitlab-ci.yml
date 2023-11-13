@@ -5,7 +5,7 @@ stages:
 
 variables:
   PYVERSION: "3.8"
-  SKLLVERSION: "4.0"
+  SKLLVERSION: "4.0.1"
   MPLBACKEND: "Agg"
   BINDIR: "/root/skllenv/bin"
   TESTDIR: "/root/skllcode"
